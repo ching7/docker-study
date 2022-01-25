@@ -19,11 +19,11 @@ public class OrderController {
 
     @RequestMapping("/order/docker")
     public String helloDocker() {
-        return "hello docker" + "\t" + port + "\t" + UUID.randomUUID().toString();
+        return "hello docker" + "\t" + port + "\t" + UUID.randomUUID();
     }
 
     @RequestMapping(value = "/order/index", method = RequestMethod.GET)
     public String index() {
-        return "服务端口号: " + "\t" + port + "\t" + UUID.randomUUID().toString();
+        return "服务端口号: " + "\t" + port + "\t" + UUID.randomUUID();
     }
 }

@@ -1,13 +1,17 @@
 package com.cyn.docker.controller;
 
+import cn.hutool.core.util.IdUtil;
 import com.cyn.docker.entity.User;
 import com.cyn.docker.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Random;
 
 /**
  * 用户表(User)表控制层
@@ -15,6 +19,7 @@ import javax.annotation.Resource;
  * @author makejava
  * @since 2022-01-24 09:33:38
  */
+@Api(value = "用户表")
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -23,6 +28,29 @@ public class UserController {
      */
     @Resource
     private UserService userService;
+
+    @ApiOperation("数据库新增3条记录")
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public void addUser()
+    {
+        for (int i = 1; i <=3; i++) {
+            User user = new User();
+
+            user.setUsername("cyn"+i);
+            user.setPassword(IdUtil.simpleUUID().substring(0,6));
+            user.setSex((int) new Random().nextInt(2));
+            user.setDeleted(0);
+            userService.addUser(user);
+        }
+    }
+
+    @ApiOperation("查询1条记录")
+    @RequestMapping(value = "/find/{id}",method = RequestMethod.GET)
+    public User findUserById(@PathVariable Integer id)
+    {
+        return userService.findUserById(id);
+    }
+
 
     /**
      * 分页查询
